@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="hawkflow"
+version="0.0.18"
+description="HawkFlow.ai"
+readme = "README.md"
+keywords=["hawkflow, hawkflowclient, monitoring"]
+license = {text = "LICENSE"}
+requires-python = ">=3.7"
+dependencies=[
+    "requests>=2.25.1",
+    "python-dateutil>=2.8.2"
+]
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests"]
+
+[project.urls]
+"Homepage" = "https://github.com/hawkflow/hawkflow-py"
