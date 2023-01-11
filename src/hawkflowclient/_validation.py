@@ -1,7 +1,5 @@
 import re
 
-from dateutil.parser import *
-
 from ._hawkflow_exceptions import *
 
 

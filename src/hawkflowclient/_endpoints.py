@@ -1,6 +1,5 @@
 import os
 import json
-import datetime
 
 from ._validation import _validate_timed_data
 from ._validation import _validate_metric_data

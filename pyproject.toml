@@ -4,15 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name="hawkflow"
-version="0.0.18"
+version="0.0.21"
 description="HawkFlow.ai"
 readme = "README.md"
 keywords=["hawkflow, hawkflowclient, monitoring"]
 license = {text = "LICENSE"}
 requires-python = ">=3.7"
 dependencies=[
-    "requests>=2.25.1",
-    "python-dateutil>=2.8.2"
+    "requests>=2.25.1"
 ]
 classifiers=[
     "Development Status :: 5 - Production/Stable",
