@@ -36,10 +36,10 @@ def _validate_core(process, meta):
 
 def _validate_uid(uid):
     if not isinstance(uid, str):
-        raise HawkFlowDataTypesException("uid parameter incorrect format.")
+        raise HawkFlowDataTypesException("uid parameter must be type str.")
 
     if len(uid) > 50:
-        raise HawkFlowDataTypesException("uid parameter incorrect format.")
+        raise HawkFlowDataTypesException("uid parameter exceeded max length of 50.")
 
     if not re.match('^[a-zA-Z\\d\\s_-]*$', uid):
         raise HawkFlowDataTypesException("uid parameter incorrect format.")
@@ -93,6 +93,9 @@ def _validate_metric_items(items):
 
         if not isinstance(d["name"], str) or (not isinstance(d["value"], int) and not isinstance(d["value"], float)):
             raise HawkFlowDataTypesException(_metric_text)
+
+        if len(d["name"]) > 50:
+            raise HawkFlowDataTypesException("metric items name parameter exceeded max length of 50")
 
         if not re.match('^[a-zA-Z\\d\\s_-]*$', d["name"]):
             raise HawkFlowDataTypesException("metric name parameter contains illegal characters")
