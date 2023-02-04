@@ -8,7 +8,7 @@ from ._validation import _validate_api_key
 
 
 def _headers(api_key):
-    if api_key == "":
+    if not api_key or api_key == "":
         api_key = os.environ.get("HAWKFLOW_API_KEY")
 
     _validate_api_key(api_key)

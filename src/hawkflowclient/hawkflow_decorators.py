@@ -1,6 +1,6 @@
 from functools import wraps
 
-from .hawkflow import *
+from .hawkflow_api import *
 
 
 class HawkflowTimed:
@@ -15,9 +15,9 @@ class HawkflowTimed:
                 if k == "hawkflow_meta":
                     meta = kwargs['hawkflow_meta']
 
-            hawkflow_start(process=func.__name__, meta=meta, api_key=self.api_key)
+            start(process=func.__name__, meta=meta, api_key=self.api_key)
             result = func(*args, **kwargs)
-            hawkflow_end(process=func.__name__, meta=meta, api_key=self.api_key)
+            end(process=func.__name__, meta=meta, api_key=self.api_key)
             return result
         return wrapper
 
@@ -37,7 +37,7 @@ class HawkflowMetrics:
                 if k == "hawkflow_meta":
                     meta = kwargs['hawkflow_meta']
 
-            hawkflow_metrics(process=func.__name__, meta=meta, items=kwargs['items'], api_key=self.api_key)
+            metrics(process=func.__name__, meta=meta, items=kwargs['items'], api_key=self.api_key)
             result = func(*args, **kwargs)
             return result
         return wrapper
@@ -59,5 +59,5 @@ class HawkflowException:
                 result = func(*args, **kwargs)
                 return result
             except Exception as e:
-                hawkflow_exception(process=func.__name__, meta=meta, exception_text=traceback.format_exc(), api_key=self.api_key)
+                exception(process=func.__name__, meta=meta, exception_text=traceback.format_exc(), api_key=self.api_key)
         return wrapper

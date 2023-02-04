@@ -23,7 +23,7 @@ _http = requests.Session()
 _http.mount("https://", _adapter)
 
 
-def hawkflow_metrics(process: str, meta: str = "", items=None, api_key: str = ""):
+def metrics(process: str, meta: str = "", items=None, api_key: str = ""):
     if items is None:
         items = []
 
@@ -32,19 +32,19 @@ def hawkflow_metrics(process: str, meta: str = "", items=None, api_key: str = ""
     _hawkflow_post(url, data, _headers(api_key))
 
 
-def hawkflow_exception(process: str, meta: str = "", exception_text: str = "", api_key: str = ""):
+def exception(process: str, meta: str = "", exception_text: str = "", api_key: str = ""):
     url = f"{_hawkflow_api_url}/exception"
     data = _exception_data(process, meta, exception_text)
     _hawkflow_post(url, data, _headers(api_key))
 
 
-def hawkflow_start(process: str, meta: str = "", uid: str = "", api_key: str = ""):
+def start(process: str, meta: str = "", uid: str = "", api_key: str = ""):
     url = f"{_hawkflow_api_url}/timed/start"
     data = _timed_data(process, meta, uid)
     _hawkflow_post(url, data, _headers(api_key))
 
 
-def hawkflow_end(process: str, meta: str = "", uid: str = "",  api_key: str = ""):
+def end(process: str, meta: str = "", uid: str = "",  api_key: str = ""):
     url = f"{_hawkflow_api_url}/timed/end"
     data = _timed_data(process, meta, uid)
     _hawkflow_post(url, data, _headers(api_key))
