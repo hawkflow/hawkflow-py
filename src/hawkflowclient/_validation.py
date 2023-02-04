@@ -50,7 +50,7 @@ def _validate_process(process):
         raise HawkFlowDataTypesException("process parameter must be type str")
 
     if len(process) > 249:
-        raise HawkFlowDataTypesException("process parameter exceeded max length of 300")
+        raise HawkFlowDataTypesException("process parameter exceeded max length of 250")
 
     if not re.match('^[a-zA-Z\\d\\s_-]*$', process):
         raise HawkFlowDataTypesException("process parameter contains illegal characters")
