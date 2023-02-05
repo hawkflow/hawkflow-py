@@ -7,7 +7,7 @@ name="hawkflow"
 version="0.0.21"
 description="HawkFlow.ai"
 readme = "README.md"
-keywords=["hawkflow, hawkflowclient, monitoring"]
+keywords=["hawkflow", "hawkflowclient", "monitoring"]
 license = {text = "LICENSE"}
 requires-python = ">=3.7"
 dependencies=[
