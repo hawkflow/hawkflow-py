@@ -4,19 +4,6 @@ import json
 from ._validation import _validate_timed_data
 from ._validation import _validate_metric_data
 from ._validation import _validate_exception_data
-from ._validation import _validate_api_key
-
-
-def _headers(api_key):
-    if not api_key or api_key == "":
-        api_key = os.environ.get("HAWKFLOW_API_KEY")
-
-    _validate_api_key(api_key)
-
-    return {
-        "Content-type": "application/json",
-        "hawkflow-api-key": f"{api_key}"
-    }
 
 
 def _timed_data(process: str, meta: str, uid: str) -> str:

@@ -1,4 +1,5 @@
 import re
+import os
 
 from ._hawkflow_exceptions import *
 
@@ -20,12 +21,15 @@ def _validate_exception_data(process: str, meta: str, exception_text: str):
 
 def _validate_api_key(api_key):
     if not api_key or api_key == "":
+        api_key = os.environ.get("HAWKFLOW_API_KEY")
+
+    if not api_key or api_key == "":
         raise HawkFlowNoApiKeyException()
 
-    if not re.match('^[a-zA-Z\\d\\s_-]*$', api_key):
+    if len(api_key) > 50:
         raise HawkFlowApiKeyFormatException()
 
-    if len(api_key) > 50:
+    if not re.match('^[a-zA-Z\\d\\s_-]*$', api_key):
         raise HawkFlowApiKeyFormatException()
 
 
