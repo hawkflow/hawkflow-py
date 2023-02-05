@@ -32,6 +32,8 @@ def _validate_api_key(api_key):
     if not re.match('^[a-zA-Z\\d\\s_-]*$', api_key):
         raise HawkFlowApiKeyFormatException()
 
+    return api_key
+
 
 def _validate_core(process, meta):
     _validate_process(process)

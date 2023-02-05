@@ -23,7 +23,7 @@ _http = requests.Session()
 _http.mount("https://", _adapter)
 
 class HawkflowAPI:
-    def __init__(self, api_key):
+    def __init__(self, api_key=""):
         self.api_key = api_key
 
     def metrics(self, process: str, meta: str = "", items=None):
@@ -53,8 +53,8 @@ class HawkflowAPI:
 
     def _hawkflow_post(self, url, data):
         try:
-            _validate_api_key(self.api_key)
-            
+            self.api_key = _validate_api_key(self.api_key)
+
             api_headers = {
                 "Content-type": "application/json",
                 "hawkflow-api-key": f"{self.api_key}"

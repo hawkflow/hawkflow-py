@@ -1,9 +1,6 @@
 import unittest
 from contextlib import contextmanager
 import json
-import datetime
-
-from dateutil.parser import *
 
 from src.hawkflowclient._validation import _validate_process, _validate_meta, _validate_exception_text
 from src.hawkflowclient._validation import _validate_uid, _validate_metric_items
