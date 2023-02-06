@@ -6,25 +6,14 @@ from ._hawkflow_exceptions import HawkFlowException
 from ._validation import _validate_api_key
 
 import requests
-from requests.adapters import HTTPAdapter, Retry
 
 _hawkflow_api_url = 'https://api.hawkflow.ai/v1'
 
-_retry_strategy = Retry(
-    total=3,
-    backoff_factor=1,
-    status_forcelist=[500, 502, 503, 504],
-    method_whitelist=["POST"]
-)
-
-_adapter = HTTPAdapter(max_retries=_retry_strategy)
-
-_http = requests.Session()
-_http.mount("https://", _adapter)
-
 class HawkflowAPI:
-    def __init__(self, api_key=""):
+    def __init__(self, api_key="", max_retries=3, wait_time=0.1):
         self.api_key = api_key
+        self.max_retries = max_retries
+        self.wait_time = wait_time
 
     def metrics(self, process: str, meta: str = "", items=None):
         if items is None:
@@ -53,6 +42,9 @@ class HawkflowAPI:
 
     def _hawkflow_post(self, url, data):
         try:
+            retries = 0
+            success = False
+
             self.api_key = _validate_api_key(self.api_key)
 
             api_headers = {
@@ -60,9 +52,13 @@ class HawkflowAPI:
                 "hawkflow-api-key": f"{self.api_key}"
             }
 
-            _http.post(url, data=data, headers=api_headers, timeout=1)
+            while not success and retries < self.max_retries:
+                try:
+                    requests.post(url, data=data, headers=api_headers, timeout=self.wait_time)
+                    success = True
+                except requests.exceptions.HTTPError as err:
+                    retries = retries + 1
+                    logging.error(f"HawkFlow post_metrics failed - {traceback.format_exc()}")
         except HawkFlowException as he:
             logging.error(he.message)
-        except requests.exceptions.HTTPError as err:
-            logging.error(f"HawkFlow post_metrics failed - {traceback.format_exc()}")
 
