@@ -82,26 +82,14 @@ def _validate_exception_text(exception_text):
 
 
 def _validate_metric_items(items):
-    _metric_text = "metric items parameter should be a list of dict {name: STR, value: INT|FLOAT}"
+    _metric_text = "metric items parameter should be a dict {STR:FLOAT or INT}"
 
-    if not isinstance(items, list):
-        raise HawkFlowDataTypesException("metric items parameter must be type list")
+    if not isinstance(items, dict):
+        raise HawkFlowDataTypesException("metric items parameter must be type dict {STR:FLOAT or INT}")
 
-    for d in items:
-        if not isinstance(d, dict):
-            raise HawkFlowDataTypesException("metric items parameter must be type List[dict]")
-
-        if len(d) != 2:
+    for key in items.keys():
+        if not isinstance(key, str) or (not isinstance(items[key], int) and not isinstance(items[key], float)):
             raise HawkFlowDataTypesException(_metric_text)
 
-        if "name" not in d or "value" not in d:
-            raise HawkFlowDataTypesException(_metric_text)
-
-        if not isinstance(d["name"], str) or (not isinstance(d["value"], int) and not isinstance(d["value"], float)):
-            raise HawkFlowDataTypesException(_metric_text)
-
-        if len(d["name"]) > 50:
-            raise HawkFlowDataTypesException("metric items name parameter exceeded max length of 50")
-
-        if not re.match('^[a-zA-Z\\d\\s_-]*$', d["name"]):
-            raise HawkFlowDataTypesException("metric name parameter contains illegal characters")
+        if not re.match('^[a-zA-Z\\d\\s_-]*$', key):
+            raise HawkFlowDataTypesException("metric items parameter dictionary key contains illegal characters")
