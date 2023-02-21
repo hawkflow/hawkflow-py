@@ -9,6 +9,7 @@ import requests
 
 _hawkflow_api_url = 'https://api.hawkflow.ai/v1'
 
+
 class HawkflowAPI:
     def __init__(self, api_key="", max_retries=3, wait_time=0.1):
         self.api_key = api_key
@@ -28,12 +29,10 @@ class HawkflowAPI:
         data = _exception_data(process, meta, exception_text)
         self._hawkflow_post(url, data)
 
-
     def start(self, process: str, meta: str = "", uid: str = ""):
         url = f"{_hawkflow_api_url}/timed/start"
         data = _timed_data(process, meta, uid)
         self._hawkflow_post(url, data)
-
 
     def end(self, process: str, meta: str = "", uid: str = ""):
         url = f"{_hawkflow_api_url}/timed/end"
