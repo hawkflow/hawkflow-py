@@ -11,7 +11,7 @@ _hawkflow_api_url = 'https://api.hawkflow.ai/v1'
 
 
 class HawkflowAPI:
-    def __init__(self, api_key="", max_retries=3, wait_time=0.1):
+    def __init__(self, api_key="", max_retries=3, wait_time=0.5):
         self.api_key = api_key
         self.max_retries = max_retries
         self.wait_time = wait_time
