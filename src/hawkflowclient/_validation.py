@@ -9,7 +9,7 @@ def _validate_timed_data(process: str, meta: str, uid: str):
     _validate_uid(uid)
 
 
-def _validate_metric_data(process: str, meta: str, items: list):
+def _validate_metric_data(process: str, meta: str, items: dict):
     _validate_core(process, meta)
     _validate_metric_items(items)
 
