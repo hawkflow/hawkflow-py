@@ -11,7 +11,7 @@ _hawkflow_api_url = 'https://api.hawkflow.ai/v1'
 
 
 class HawkflowAPI:
-    def __init__(self, api_key="", max_retries=3, wait_time=0.5):
+    def __init__(self, api_key="", max_retries=3, wait_time=1):
         self.api_key = api_key
         self.max_retries = max_retries
         self.wait_time = wait_time
@@ -30,12 +30,12 @@ class HawkflowAPI:
         self._hawkflow_post(url, data)
 
     def start(self, process: str, meta: str = "", uid: str = ""):
-        url = f"{_hawkflow_api_url}/timed/start"
+        url = f"{_hawkflow_api_url}/start"
         data = _timed_data(process, meta, uid)
         self._hawkflow_post(url, data)
 
     def end(self, process: str, meta: str = "", uid: str = ""):
-        url = f"{_hawkflow_api_url}/timed/end"
+        url = f"{_hawkflow_api_url}/end"
         data = _timed_data(process, meta, uid)
         self._hawkflow_post(url, data)
 
@@ -47,8 +47,8 @@ class HawkflowAPI:
             self.api_key = _validate_api_key(self.api_key)
 
             api_headers = {
-                "Content-type": "application/json",
-                "hawkflow-api-key": f"{self.api_key}"
+                "content-type": "application/json",
+                "x-hawkflow-api-key": f"{self.api_key}"
             }
 
             while not success and retries < self.max_retries:
