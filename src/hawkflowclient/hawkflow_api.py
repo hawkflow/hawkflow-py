@@ -58,7 +58,8 @@ class HawkflowAPI:
                     return res
                 except Exception as err:
                     retries = retries + 1
-                    logging.error(f"HawkFlow post_metrics failed on attempt {retries} - {traceback.format_exc()}")
+                    logging.error(f"HawkFlow api failed on attempt {retries} - {traceback.format_exc()}")
         except HawkFlowException as he:
-            logging.error(he.message)
-
+            logging.error(f"HawkFlow Exception - {he.message}")
+        except Exception as err:
+            logging.error(f"HawkFlow Exception - {traceback.format_exc()}")
