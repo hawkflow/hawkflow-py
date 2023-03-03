@@ -22,22 +22,22 @@ class HawkflowAPI:
 
         url = f"{_hawkflow_api_url}/metrics"
         data = _metric_data(process, meta, items)
-        self._hawkflow_post(url, data)
+        return self._hawkflow_post(url, data)
 
     def exception(self, process: str, meta: str = "", exception_text: str = ""):
         url = f"{_hawkflow_api_url}/exception"
         data = _exception_data(process, meta, exception_text)
-        self._hawkflow_post(url, data)
+        return self._hawkflow_post(url, data)
 
     def start(self, process: str, meta: str = "", uid: str = ""):
         url = f"{_hawkflow_api_url}/start"
         data = _timed_data(process, meta, uid)
-        self._hawkflow_post(url, data)
+        return self._hawkflow_post(url, data)
 
     def end(self, process: str, meta: str = "", uid: str = ""):
         url = f"{_hawkflow_api_url}/end"
         data = _timed_data(process, meta, uid)
-        self._hawkflow_post(url, data)
+        return self._hawkflow_post(url, data)
 
     def _hawkflow_post(self, url, data):
         try:
