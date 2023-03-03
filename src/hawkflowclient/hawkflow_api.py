@@ -53,8 +53,9 @@ class HawkflowAPI:
 
             while not success and retries < self.max_retries:
                 try:
-                    requests.post(url, data=data, headers=api_headers, timeout=self.wait_time)
+                    res = requests.post(url, data=data, headers=api_headers, timeout=self.wait_time)
                     success = True
+                    return res
                 except Exception as err:
                     retries = retries + 1
                     logging.error(f"HawkFlow post_metrics failed on attempt {retries} - {traceback.format_exc()}")
