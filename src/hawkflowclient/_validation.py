@@ -4,6 +4,13 @@ import os
 from ._hawkflow_exceptions import *
 
 
+PROCESS_REGEX = r'^[a-zA-Z\d\s_-]*$'
+META_REGEX = r'^[\w\s\\/\-\_\*\&\=\.\+\?\@\:]*$'
+API_KEY_REGEX = r'^[a-zA-Z0-9_-]+$'
+METRIC_KEY_REGEX = r'^[a-zA-Z\d\s_-]*$'
+UID_REGEX = r'^[a-zA-Z0-9_-]*$'
+
+
 def _validate_timed_data(process: str, meta: str, uid: str):
     _validate_core(process, meta)
     _validate_uid(uid)
@@ -29,7 +36,7 @@ def _validate_api_key(api_key):
     if len(api_key) > 50:
         raise HawkFlowApiKeyFormatException()
 
-    if not re.match('^[a-zA-Z\\d\\s_-]*$', api_key):
+    if not re.match(API_KEY_REGEX, api_key):
         raise HawkFlowApiKeyFormatException()
 
     return api_key
@@ -47,7 +54,7 @@ def _validate_uid(uid):
     if len(uid) > 50:
         raise HawkFlowDataTypesException("uid parameter exceeded max length of 50.")
 
-    if not re.match('^[a-zA-Z\\d\\s_-]*$', uid):
+    if not re.match(UID_REGEX, uid):
         raise HawkFlowDataTypesException("uid parameter incorrect format.")
 
 
@@ -55,10 +62,13 @@ def _validate_process(process):
     if not isinstance(process, str):
         raise HawkFlowDataTypesException("process parameter must be type str")
 
+    if process == "":
+        raise HawkFlowDataTypesException("process parameter cannot be empty")
+
     if len(process) > 249:
         raise HawkFlowDataTypesException("process parameter exceeded max length of 250")
 
-    if not re.match('^[a-zA-Z\\d\\s_-]*$', process):
+    if not re.match(PROCESS_REGEX, process):
         raise HawkFlowDataTypesException("process parameter contains illegal characters")
 
 
@@ -69,7 +79,7 @@ def _validate_meta(meta):
     if len(meta) > 499:
         raise HawkFlowDataTypesException("meta parameter exceeded max length of 500")
 
-    if not re.match('^[a-zA-Z\\d\\s_-]*$', meta):
+    if not re.match(META_REGEX, meta):
         raise HawkFlowDataTypesException("meta parameter contains illegal characters")
 
 
@@ -91,5 +101,8 @@ def _validate_metric_items(items):
         if not isinstance(key, str) or (not isinstance(items[key], int) and not isinstance(items[key], float)):
             raise HawkFlowDataTypesException(_metric_text)
 
-        if not re.match('^[a-zA-Z\\d\\s_-]*$', key):
+        if key == "":
+            raise HawkFlowDataTypesException("metric items parameter dictionary key cannot be empty")
+
+        if not re.match(METRIC_KEY_REGEX, key):
             raise HawkFlowDataTypesException("metric items parameter dictionary key contains illegal characters")
