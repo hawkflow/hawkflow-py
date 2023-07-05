@@ -5,9 +5,9 @@ from ._hawkflow_exceptions import *
 
 
 PROCESS_REGEX = r'^[a-zA-Z\d\s_-]*$'
-META_REGEX = r'^[\w\s\\/\-\_\*\&\=\.\+\?\@\:]*$'
+META_REGEX = r'^[\w\s\\/\-\_\*\&\=\.\,\+\?\@\:]*$'
+METRIC_KEY_REGEX = r'^[\w\s\\/\-\_\*\&\=\.\,\+\?\@\:]*$'
 API_KEY_REGEX = r'^[a-zA-Z0-9_-]+$'
-METRIC_KEY_REGEX = r'^[\w\s\\/\-\_\*\&\=\.\+\?\@\:]*$'
 UID_REGEX = r'^[a-zA-Z0-9_-]*$'
 
 

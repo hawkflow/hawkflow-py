@@ -38,6 +38,13 @@ class TestValidation(unittest.TestCase):
         except HawkFlowDataTypesException:
             self.fail("test_valid_api_meta_regex raised Exception")
 
+    def test_valid_meta_regex_4(self):
+        try:
+            key = r'127.0.0.1 story / ,'
+            _validate_meta(key)
+        except HawkFlowDataTypesException:
+            self.fail("test_valid_api_meta_regex raised Exception")
+
     def test_valid_meta_regex_3(self):
         try:
             key = r'http://127.0.0.1:5001/v1/start'
@@ -96,6 +103,14 @@ class TestValidation(unittest.TestCase):
     def test_valid_metric_items_regex(self):
         try:
             key = r'xfghgh456456-_ads_fd345345'
+            items = {key: 45}
+            _validate_metric_items(items)
+        except HawkFlowDataTypesException:
+            self.fail("test_valid_api_metric_items_regex raised Exception")
+
+    def test_valid_metric_items_regex_1(self):
+        try:
+            key = r'xfghgh456456-_ads_fd345345,'
             items = {key: 45}
             _validate_metric_items(items)
         except HawkFlowDataTypesException:
