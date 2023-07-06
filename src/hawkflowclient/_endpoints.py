@@ -18,13 +18,14 @@ def _timed_data(process: str, meta: str, uid: str) -> str:
     return x
 
 
-def _metric_data(process: str, meta: str, items: dict) -> str:
-    _validate_metric_data(process, meta, items)
+def _metric_data(process: str, meta: str, items: dict, df: int) -> str:
+    _validate_metric_data(process, meta, items, df)
 
     x = json.dumps({
         "process": process,
         "meta": meta,
-        "items": items
+        "items": items,
+        "df": df
     })
 
     return x

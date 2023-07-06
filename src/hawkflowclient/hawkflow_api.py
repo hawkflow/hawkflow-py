@@ -16,13 +16,13 @@ class HawkflowAPI:
         self.max_retries = max_retries
         self.wait_time = wait_time
 
-    def metrics(self, process: str, meta: str = "", items=None):
+    def metrics(self, process: str, meta: str = "", items=None, df=0):
         try:
             if items is None:
                 items = []
 
             url = f"{_hawkflow_api_url}/metrics"
-            data = _metric_data(process, meta, items)
+            data = _metric_data(process, meta, items, df)
             return self._hawkflow_post(url, data)
         except HawkFlowException as he:
             logging.error(f"HawkFlowException - {str(he)}")

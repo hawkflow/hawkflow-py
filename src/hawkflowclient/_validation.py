@@ -16,9 +16,13 @@ def _validate_timed_data(process: str, meta: str, uid: str):
     _validate_uid(uid)
 
 
-def _validate_metric_data(process: str, meta: str, items: dict):
+def _validate_metric_data(process: str, meta: str, items: dict, df: int):
     _validate_core(process, meta)
-    _validate_metric_items(items)
+
+    if df == 1:
+        _validate_metric_items_df(items)
+    else:
+        _validate_metric_items(items)
 
 
 def _validate_exception_data(process: str, meta: str, exception_text: str):
@@ -106,3 +110,31 @@ def _validate_metric_items(items):
 
         if not re.match(METRIC_KEY_REGEX, key):
             raise HawkFlowDataTypesException("metric items parameter dictionary key contains illegal characters")
+
+
+def _validate_metric_items_df(items):
+    _metric_text = "metric items df parameter should be a dict {STR:{str:FLOAT or INT}, {str:FLOAT or INT}}"
+
+    if not isinstance(items, dict):
+        raise HawkFlowDataTypesException("metric items parameter must be type dict {STR:FLOAT or INT}")
+
+    if not items:
+        raise HawkFlowDataTypesException("metric items cannot be empty")
+
+    for key, value in items.items():
+        if not re.match(METRIC_KEY_REGEX, key):
+            raise HawkFlowDataTypesException("metric items parameter dictionary key contains illegal characters")
+        if key == "":
+            raise HawkFlowDataTypesException("metric items parameter dictionary key cannot be empty")
+        # Check if each item in the dictionary is also a dictionary
+        if not isinstance(value, dict):
+            raise HawkFlowDataTypesException(_metric_text)
+
+        for sub_key, sub_value in value.items():
+            if not re.match(METRIC_KEY_REGEX, sub_key):
+                raise HawkFlowDataTypesException("metric items parameter dictionary key contains illegal characters")
+            if sub_key == "":
+                raise HawkFlowDataTypesException("metric items parameter dictionary key cannot be empty")
+            # Check if each value in the sub-dictionaries is an integer (or a float)
+            if not isinstance(sub_value, (int, float)):
+                raise HawkFlowDataTypesException(_metric_text)
