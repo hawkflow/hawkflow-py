@@ -73,7 +73,7 @@ def _validate_process(process):
         raise HawkFlowDataTypesException("process parameter exceeded max length of 250")
 
     if not re.match(PROCESS_REGEX, process):
-        raise HawkFlowDataTypesException("process parameter contains illegal characters")
+        raise HawkFlowDataTypesException(f"process parameter: {process} contains illegal characters")
 
 
 def _validate_meta(meta):
@@ -84,7 +84,7 @@ def _validate_meta(meta):
         raise HawkFlowDataTypesException("meta parameter exceeded max length of 500")
 
     if not re.match(META_REGEX, meta):
-        raise HawkFlowDataTypesException("meta parameter contains illegal characters")
+        raise HawkFlowDataTypesException(f"meta parameter: {meta} contains illegal characters")
 
 
 def _validate_exception_text(exception_text):
@@ -109,7 +109,7 @@ def _validate_metric_items(items):
             raise HawkFlowDataTypesException("metric items parameter dictionary key cannot be empty")
 
         if not re.match(METRIC_KEY_REGEX, key):
-            raise HawkFlowDataTypesException("metric items parameter dictionary key contains illegal characters")
+            raise HawkFlowDataTypesException(f"metric items parameter dictionary key: {key} contains illegal characters")
 
 
 def _validate_metric_items_df(items):
