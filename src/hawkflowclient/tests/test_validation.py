@@ -6,6 +6,7 @@ import json
 from src.hawkflowclient._validation import _validate_api_key
 from src.hawkflowclient._validation import _validate_process, _validate_meta, _validate_exception_text
 from src.hawkflowclient._validation import _validate_uid, _validate_metric_items, _validate_metric_items_df
+from src.hawkflowclient._validation import _clean_process, _clean_meta, _clean_metric_key
 from src.hawkflowclient._endpoints import _exception_data
 from src.hawkflowclient._hawkflow_exceptions import *
 
@@ -20,11 +21,11 @@ class TestValidation(unittest.TestCase):
 
     def test_process_illegal_chars(self):
         with self.assertRaises(HawkFlowDataTypesException):
-            process = "dfjow @e54j25 5"
+            process = "df'jow @e54j25 5"
             _validate_process(process)
 
         with self.assertRaises(HawkFlowDataTypesException):
-            process = "dfjow 'e54j25 5"
+            process = "dfj%ow e54j25 5"
             _validate_process(process)
 
         with self.assertNotRaises(HawkFlowDataTypesException):
@@ -134,6 +135,14 @@ class TestValidation(unittest.TestCase):
         except HawkFlowDataTypesException:
             self.fail("test_valid_api_meta_regex raised Exception")
 
+
+    def regex_test(self):
+        META_REGEX = r"[^ '\"%]*$"
+        key = r"a=zu+re\34/53*45&s"
+
+        if not re.match(META_REGEX, key):
+            raise Exception
+
     def test_valid_meta_regex_2(self):
         try:
             key = r'127.0.0.1 story /'
@@ -154,6 +163,11 @@ class TestValidation(unittest.TestCase):
             _validate_meta(key)
         except HawkFlowDataTypesException:
             self.fail("test_valid_api_meta_regex raised Exception")
+
+    def test_invalid_meta_regex_5(self):
+        with self.assertRaises(HawkFlowDataTypesException):
+            key = r"azu%r\"e34'5345s"
+            _validate_meta(key)
 
     def test_invalid_meta_regex(self):
         with self.assertRaises(HawkFlowDataTypesException):
@@ -230,4 +244,30 @@ class TestValidation(unittest.TestCase):
             key = r"azu%re\34/53*45s"
             items = {key: 45}
             _validate_metric_items(items)
+
+    def test_cleaning_process(self):
+        try:
+            test_str = "Hello!@#$%^&*()_+{}|:\"<>?[];',./~`World!"
+            result = _clean_process(test_str)
+            _validate_process(result)
+        except HawkFlowDataTypesException:
+            self.fail("test_cleaning_process raised Exception")
+
+    def test_cleaning_meta(self):
+        try:
+            test_str = "Hello!@#$%^&*()_+{}|:\"<>?[];',./~`World!"
+            result = _clean_meta(test_str)
+            _validate_meta(result)
+        except HawkFlowDataTypesException:
+            self.fail("test_cleaning_meta raised Exception")
+
+    def test_cleaning_meta_key(self):
+        try:
+            test_str = "Hello!@#$%^&*()_+{}|:\"<>?[];',./~`World!"
+            test_str_2 = "&*^£)$^)JKHello!@#$%^&*()_+{}|:\"<>?[];',./~`World!"
+            items = {test_str: 2, test_str_2: 4}
+            cleaned_dict = _clean_metric_key(items)
+            _validate_metric_items(cleaned_dict)
+        except HawkFlowDataTypesException:
+            self.fail("test_cleaning_meta_key raised Exception")
 
