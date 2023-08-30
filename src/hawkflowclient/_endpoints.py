@@ -4,7 +4,7 @@ import json
 from ._validation import _validate_timed_data
 from ._validation import _validate_metric_data
 from ._validation import _validate_exception_data
-from ._validation import _clean_process, _clean_meta, _clean_meta_key
+from ._validation import _clean_process, _clean_meta, _clean_metric_key
 
 
 def _timed_data(process: str, meta: str, uid: str) -> str:
@@ -25,7 +25,7 @@ def _timed_data(process: str, meta: str, uid: str) -> str:
 def _metric_data(process: str, meta: str, items: dict, df: int) -> str:
     process = _clean_process(process)
     meta = _clean_meta(meta)
-    items = _clean_meta_key(items)
+    items = _clean_metric_key(items)
 
     _validate_metric_data(process, meta, items, df)
 
