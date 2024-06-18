@@ -1,7 +1,7 @@
 import logging
 import traceback
 
-from ._endpoints import _timed_data, _metric_data, _exception_data
+from ._endpoints import _timed_data_start, _timed_data_end, _metric_data, _exception_data
 from ._hawkflow_exceptions import HawkFlowException
 from ._validation import _validate_api_key
 
@@ -35,10 +35,10 @@ class HawkflowAPI:
         except HawkFlowException as he:
             logging.error(f"HawkFlowException - {str(he)}")
 
-    def start(self, process: str, meta: str = "", info: str = "", uid: str = ""):
+    def start(self, process: str, meta: str = "", uid: str = ""):
         try:
             url = f"{_hawkflow_api_url}/start"
-            data = _timed_data(process, meta, uid, info)
+            data = _timed_data_start(process, meta, uid)
             return self._hawkflow_post(url, data)
         except HawkFlowException as he:
             logging.error(f"HawkFlowException - {str(he)}")
@@ -46,7 +46,7 @@ class HawkflowAPI:
     def end(self, process: str, meta: str = "", info: str = "", uid: str = ""):
         try:
             url = f"{_hawkflow_api_url}/end"
-            data = _timed_data(process, meta, uid, info)
+            data = _timed_data_end(process, meta, uid, info)
             return self._hawkflow_post(url, data)
         except HawkFlowException as he:
             logging.error(f"HawkFlowException - {str(he)}")

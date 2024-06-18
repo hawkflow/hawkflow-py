@@ -7,7 +7,22 @@ from ._validation import _validate_exception_data
 from ._validation import _clean_process, _clean_meta, _clean_metric_key
 
 
-def _timed_data(process: str, meta: str, uid: str, info: str) -> str:
+def _timed_data_start(process: str, meta: str, uid: str) -> str:
+    process = _clean_process(process)
+    meta = _clean_meta(meta)
+
+    _validate_timed_data(process, meta, uid, "")
+
+    x = json.dumps({
+        "process": process,
+        "meta": meta,
+        "uid": uid,
+    })
+
+    return x
+
+
+def _timed_data_end(process: str, meta: str, uid: str, info: str) -> str:
     process = _clean_process(process)
     meta = _clean_meta(meta)
 
