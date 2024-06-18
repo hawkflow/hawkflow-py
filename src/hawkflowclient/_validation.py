@@ -40,9 +40,10 @@ def _clean_metric_key(items):
     return cleaned_dict
 
 
-def _validate_timed_data(process: str, meta: str, uid: str):
+def _validate_timed_data(process: str, meta: str, uid: str, info: str):
     _validate_core(process, meta)
     _validate_uid(uid)
+    _validate_info(info)
 
 
 def _validate_metric_data(process: str, meta: str, items: dict, df: int):
@@ -78,6 +79,11 @@ def _validate_api_key(api_key):
 def _validate_core(process, meta):
     _validate_process(process)
     _validate_meta(meta)
+
+
+def _validate_info(info):
+    if not isinstance(info, str):
+        raise HawkFlowDataTypesException("info parameter must be type str.")
 
 
 def _validate_uid(uid):

@@ -35,18 +35,18 @@ class HawkflowAPI:
         except HawkFlowException as he:
             logging.error(f"HawkFlowException - {str(he)}")
 
-    def start(self, process: str, meta: str = "", uid: str = ""):
+    def start(self, process: str, meta: str = "", info: str = "", uid: str = ""):
         try:
             url = f"{_hawkflow_api_url}/start"
-            data = _timed_data(process, meta, uid)
+            data = _timed_data(process, meta, uid, info)
             return self._hawkflow_post(url, data)
         except HawkFlowException as he:
             logging.error(f"HawkFlowException - {str(he)}")
 
-    def end(self, process: str, meta: str = "", uid: str = ""):
+    def end(self, process: str, meta: str = "", info: str = "", uid: str = ""):
         try:
             url = f"{_hawkflow_api_url}/end"
-            data = _timed_data(process, meta, uid)
+            data = _timed_data(process, meta, uid, info)
             return self._hawkflow_post(url, data)
         except HawkFlowException as he:
             logging.error(f"HawkFlowException - {str(he)}")
