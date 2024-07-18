@@ -10,6 +10,12 @@ class HawkFlowException(Exception):
         pass
 
 
+class HawkFlowIntervalLengthException(HawkFlowException):
+    def __str__(self):
+        self.message = repr(f"HawkFlow Heartbeats must be a minimum of 15 minutes.")
+        return self.message
+
+
 class HawkFlowNoApiKeyException(HawkFlowException):
     def __str__(self):
         self.message = repr(f"HawkFlow API no HawkFlow API Key set. {_docs_url()}")
