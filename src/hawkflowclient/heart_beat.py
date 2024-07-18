@@ -44,7 +44,7 @@ class Heart:
 
     @staticmethod
     def beat(app_name, meta="heartbeat", interval_minutes=60, api_key=""):
-        if interval_minutes < 1:
+        if interval_minutes < 15:
             raise HawkFlowIntervalLengthException()
         return Heart(app_name, meta, interval_minutes, api_key)
 
